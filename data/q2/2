@@ -1,0 +1,128 @@
+#! /usr/bin/env python
+
+
+
+
+#f=open("2a.txt")
+f=open("balanced_smileystxt.txt")
+line=f.readline()
+number_of_cases=int(line)
+
+
+outfile = open("solutionof2.txt", "w");
+
+for i in range(number_of_cases):
+#for i in range(1):
+    #print i+1
+    nlist=[0]*1024
+    line=f.readline()
+    length=len(line)
+
+    flag=1
+
+    #print line
+    #print length
+    k=0
+    j=0
+    while k in range(length):
+        #print k
+        if line[k]==':' and k<(length-1):
+            if line[k+1]=="(":
+                nlist[j]=4;
+                j=j+1
+                k=k+2
+            elif line[k+1]==")":
+                nlist[j]=3;
+                j=j+1
+                k=k+2
+            else:
+                k=k+1
+        elif line[k]=="(":
+            nlist[j]=2;
+            j=j+1
+            k=k+1
+        elif line[k]==")":
+            nlist[j]=1;
+            j=j+1
+            k=k+1
+        else:
+            k=k+1
+    #print nlist
+    nlist=nlist[0:j]
+    #print nlist
+    
+
+    if len(nlist)==0:
+        flag=1
+        break
+
+    indicatorarray=[]
+    lindicator=0;
+    upband=-2;lowerband=-1
+    
+    for num in nlist:
+        
+        #print num
+        #print "v"
+
+        if num==4:
+            if upband>=lowerband:
+                upband=upband+1
+            else:
+                upband=1;
+                lowerband=0;
+            
+        if num==3:
+            if upband>=lowerband:
+                lowerband=max(lowerband-1,0)
+            if upband==-2:
+                lowerband=0
+                upband=0
+        if num==2:
+            if upband>=lowerband:
+                upband=upband+1;
+                lowerband=lowerband+1
+            else:
+                upband=1;
+                lowerband=1;                
+
+        if num==1:
+
+            if upband<=0:
+                flag=1;
+                lowerband=-1;
+                break
+            else:
+                upband=upband-1;
+                lowerband=max(lowerband-1,0)
+
+
+
+                
+            
+
+        #print indicatorarray
+        #print indicatorarray
+    
+    
+    if lowerband==0:
+        flag=0
+
+
+ 
+        
+    if flag==1:
+        outfile.write("Case #"+str(i+1)+": "+'NO\n') 
+        print ("Case #"+str(i+1)+": "+'NO\n') 
+    if flag==0:
+        outfile.write("Case #"+str(i+1)+": "+'YES\n') 
+        print ("Case #"+str(i+1)+": "+'YES\n')
+            
+    
+            
+            
+                
+            
+  
+
+f.close()
